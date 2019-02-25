@@ -1,7 +1,8 @@
 /*input
-7 7 3 5
+7 7 5
 14 7 5 13 12 15 8 
 8 18 1 9 10 3 6
+1 2 3 1 2 3 1
 */
 
 // Nihesh Anderson - knandy
@@ -55,22 +56,10 @@ void mix(ll* a, ll* b){shuffle(a,b,grndm);}
 vector<ll> clients;
 vector<ll> facilities;
 ll n,m;
+vector<int> r;
 vector<ll> choose;
- 
-ll getCost(ll r){
-	ll cost = 0;
-	FOR(i,0,n){
-		vector<ll> data;
-		FOR(j,0,choose.size()){
-			data.pb(abs(clients[i]-choose[j]));
-		}
-		sort(data.begin(),data.end());
-		FOR(j,0,r) cost+=data[j];
-	}
-	return cost;
-} 
 
-ll kmedian(ll k, ll r, bool debug){
+ll kmedian(ll k, bool debug){
 	ll SZ = power(2,m,MOD);
 	ll mincost = INF;
 	bitset<50> ideal_b(10);
@@ -86,7 +75,7 @@ ll kmedian(ll k, ll r, bool debug){
 				}
 			}
 			sort(cost.begin(),cost.end());
-			FOR(l,0,r) now+=cost[l];
+			FOR(l,0,r[j]) now+=cost[l];
 		}
 		if(now < mincost){
 			mincost = now;
@@ -107,11 +96,12 @@ int main(){
 	fast_cin();
 	// freopen("input.in","r",stdin);
 	// freopen("output.out","w",stdout);
-	ll k,r;
-	cin>>n>>m>>r>>k;
+	ll k;
+	cin>>n>>m>>k;
 	FOR(i,0,n) clients.pb(nextll());
 	FOR(i,0,m) facilities.pb(nextll());
-	ll cur_cost = kmedian(k, r, false);
+	FOR(i,0,n) r.pb(nextll());
+	ll cur_cost = kmedian(k, false);
 	cout<<cur_cost<<endl;
 	return 0;
 }

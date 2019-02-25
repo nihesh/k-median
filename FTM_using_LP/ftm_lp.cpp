@@ -1,7 +1,8 @@
 /*input
-7 7 3 5
+7 7 5
 14 7 5 13 12 15 8 
 8 18 1 9 10 3 6
+1 2 3 1 2 3 1
 */
 
 // Nihesh Anderson - knandy
@@ -140,8 +141,9 @@ struct LPSolver {
   }
 };
 
-ll n,m,r,k;
+ll n,m,k;
 vector<ll> clients, facilities;
+vector<ll> r;
 
 int getFacility(int j){return j;}
 int getClientFacility(int i, int j){
@@ -153,10 +155,11 @@ int main(){
 	fast_cin();
 	// freopen("input.in","r",stdin);
 	// freopen("output.out","w",stdout);
-	cin>>n>>m>>r>>k;
+	cin>>n>>m>>k;
 	FOR(i,0,n) clients.pb(nextll());
 	FOR(i,0,m) facilities.pb(nextll());
-	VVD eqn;
+	FOR(i,0,n) r.pb(nextll());
+  VVD eqn;
 	VD intercept;
 	VD target;
 	int num_eqn = n*m+n+m+1;
@@ -189,7 +192,7 @@ int main(){
 		eqn[cur].resize(num_var);
 		FOR(j,0,m){
 			eqn[cur][getClientFacility(i,j)] = -1;
-			intercept[cur] = -r;
+			intercept[cur] = -r[i];
 		}
 		cur++;
 	}
